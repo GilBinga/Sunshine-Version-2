@@ -1,13 +1,19 @@
 package com.example.android.sunshine.app;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -49,7 +55,8 @@ public class MainActivity extends ActionBarActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
-
+        // ArrayAdapter<String> criado para popular a ListView
+        private ArrayAdapter<String> mForecastAdapter;
         public PlaceholderFragment() {
         }
 
@@ -57,6 +64,41 @@ public class MainActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+            //Criar alguns dados fakes para popular a ListView
+            String[] forecastArray = {
+                    "Today - Sunny - 88/63",
+                    "Tomorrow - Foggy - 70/46",
+                    "Weds - Cloudy - 72/63",
+                    "Thurs - Rainy - 64/51",
+                    "Fri - Foggy - 70/46",
+                    "Sat - Sunny - 76/68"
+            };
+
+            //Cria um ArrayList com os dados da String[]
+            List<String> weekForecast = new ArrayList<>(
+                    Arrays.asList(forecastArray));
+
+            //Cria o ArrayAdapter<String>
+            mForecastAdapter = new ArrayAdapter<>(
+                    //context
+                    getActivity(),
+                    //ID da layout da lista de item
+                    R.layout.list_item_forecast,
+                    //ID da TextView para popular
+                    R.id.list_item_forecast_text_view,
+                    //Dados
+                    weekForecast
+            );
+
+            //Cria referência para a ListView
+            ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
+
+            //Anexa o adpter ao ListView
+            listView.setAdapter(mForecastAdapter);
+
+
+
             return rootView;
         }
     }
